@@ -104,6 +104,21 @@ rhubarb_path = "D:/python/python_code/Ai-python-/tools/Rhubarb-Lip-Sync-1.14.0-W
 input_wav = "output.wav"
 output_json = "output.json"
 
+# 初始问候语
+welcome_text = "您好，我是导诊护士小安，请问您今天哪里不舒服？"
+print(f"小安: {welcome_text}")
+
+# 生成并播放问候语音
+if text_to_speech(API_URL, welcome_text):
+    # 生成口型动画
+    subprocess.run([rhubarb_path, "-f", "json", "-o", output_json, input_wav], check=True)
+    # 播放音频
+    play_audio('output.wav')
+
+# 将问候语添加到对话历史
+messages.append({'role': 'assistant', 'content': welcome_text})
+
+
 while True:
     content = recognize_speech()
     if not content:
